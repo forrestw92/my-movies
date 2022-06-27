@@ -18,9 +18,8 @@ function App() {
         setMovies(data.results);
     }
     const selectMovie = (movieId) => {
-        const selectedMovie = movies.find(movie => movie.id === movieId);
-        setSelectedMovie(selectedMovie);
-        console.log(selectedMovie);
+        if(movieId) setSelectedMovie(movieId);
+        console.log(movieId);
     }
 
   return (
@@ -33,7 +32,7 @@ function App() {
             )})}
              <Trending selectMovie={selectMovie}/>
         </div>
-        {selectedMovie ? <MovieInfo movie={selectedMovie}/> : ''}
+        {selectedMovie ? <MovieInfo movieId={selectedMovie}/> : ''}
     </div>
    
   );
