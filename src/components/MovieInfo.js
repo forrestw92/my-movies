@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
-import {ReactComponent as CloseIcon} from "./images/x.svg";
+import {ReactComponent as CloseIcon} from "../images/x.svg";
 
-const Movie = ({movie}) => {
+const MovieInfo = ({movie}) => {
     const [isOpen, setIsOpen] = useState(movie);
     const toggle = () => setIsOpen(false);
     useEffect(() => {
@@ -40,4 +40,4 @@ const Movie = ({movie}) => {
         </div>)
 }
 
-export default Movie;
+export default MovieInfo;
