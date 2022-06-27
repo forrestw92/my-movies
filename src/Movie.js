@@ -2,9 +2,6 @@ import React, {useEffect, useState} from 'react'
 import {ReactComponent as CloseIcon} from "./images/x.svg";
 import StarRatings from 'react-star-ratings';
 
-
-
-
 const Movie = ({movie}) => {
     const [isOpen, setIsOpen] = useState(movie);
     const toggle = () => setIsOpen(false);
