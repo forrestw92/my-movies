@@ -1,5 +1,9 @@
 import store from 'store2'
 export const storeDB = store.namespace('db')
+export const setupDB = () => {
+    if(!storeDB.local.get('watched')) storeDB.set('watched', [])
+    if(!storeDB.local.get('saved')) storeDB.set('saved', [])
+}
 export const findOne = (collection, id) => {
     const found = storeDB.local.get(collection)
     if(found && found.length > 0) {
@@ -22,5 +26,6 @@ export const create = (collection, data) => {
         const newArr = storeDB.local.get(collection) || []
         return storeDB.local.set(collection, [...newArr, data])
     }
+    return false
 }
 
