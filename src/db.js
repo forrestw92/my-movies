@@ -2,7 +2,7 @@ import store from 'store2'
 export const storeDB = store.namespace('db')
 export const findOne = (collection, id) => {
     const found = storeDB.local.get(collection)
-    if(found.length > 0) {
+    if(found && found.length > 0) {
         return found.find(item => item.id === id)
     }
     return null
