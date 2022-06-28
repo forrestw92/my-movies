@@ -1,9 +1,14 @@
 import React, {useEffect, useState} from 'react'
 import {ReactComponent as CloseIcon} from "../images/x.svg";
-
+import {create, deleteOne, findOne} from "../db";
 const MovieInfo = ({movieId}) => {
+    const hasWatched = findOne('watched', movieId)
+    const isSaved = findOne('saved', movieId)
     const [isOpen, setIsOpen] = useState(movieId !== 0);
     const [movie, setMovieData] = useState(null);
+
+    const [watched, setWatched] = useState(hasWatched);
+    const [saved, setSaved] = useState(isSaved ? isSaved : false);
     const toggle = () => setIsOpen(false);
     useEffect( () => {
         setIsOpen(false)
@@ -17,6 +22,31 @@ const MovieInfo = ({movieId}) => {
         fetchData()
     },[movieId])
 
+    const saveMovie = (movieId) => {
+        const created = create('saved', {id: movieId})
+        if(created) {
+            setSaved(true)
+        }
+    }
+    const watchedMovie = (movieId) => {
+        const created = create('watched', {id: movieId})
+        if(created) {
+            setWatched(true)
+            console.log(watched)
+        }
+    }
+    const unWatchedMovie = (movieId) => {
+        const deleted = deleteOne('watched', movieId)
+        if(deleted) {
+            setWatched(false)
+        }
+    }
+    const unSaveMovie = (movieId) => {
+        const deleted = deleteOne('saved', movieId)
+        if(deleted) {
+            setSaved(false)
+        }
+    }
     return (
         <>
             {movie && <div className={`${!isOpen ? 'hidden' : ''} fixed w-full h-full overflow-x-hidden overflow-y-auto top-0 right-0 left-0`}>
@@ -46,19 +76,19 @@ const MovieInfo = ({movieId}) => {
                         <a href={movie.homepage} className="flex justify-end grow text-slate-300 hover:text-slate-100 underline  hover:no-underline">Movie Homepage</a>
                     </div>
                     <div className="pt-5 pb-5 flex flex-col flex-nowrap">
-
                         <p className="text-lg font-bold text-slate-300">Summary:</p>
                         <p>
                             {movie.overview}
                         </p>
                     </div>
                     <div className="flex flex-row flex-nowrap justify-center w-full pt-3 border-t-2 border-t-slate-800">
-                        <button type="button" className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                        {!watched ? <button type="button" onClick={() => watchedMovie(movie.id)}  className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                             Watched It
-                        </button>
-                        <button type="button" className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                        </button> : <button type="button" className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800" onClick={() => unWatchedMovie(movie.id)}>Un-Watch</button>}
+                        {!saved ? <button type="button" onClick={() => saveMovie(movie.id)} className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
                             Save It
-                        </button>
+                        </button> : <button type="button" className="text-gray-900 hover:text-white border border-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800" onClick={() => unSaveMovie(movie.id)}>Un-Save</button>}
+
                     </div>
 
                 </div>
