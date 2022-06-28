@@ -19,7 +19,8 @@ export const deleteOne = (collection, id) => {
 export const create = (collection, data) => {
     const found = findOne(collection, data.id)
     if (!found) {
-        return storeDB.local.set(collection, [...storeDB.local.get(collection), data])
+        const newArr = storeDB.local.get(collection) || []
+        return storeDB.local.set(collection, [...newArr, data])
     }
 }
 
