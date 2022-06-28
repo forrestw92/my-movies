@@ -19,7 +19,6 @@ function App() {
     }
     const selectMovie = (movieId) => {
         if(movieId) setSelectedMovie(movieId);
-        console.log(movieId);
     }
 
   return (

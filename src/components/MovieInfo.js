@@ -17,7 +17,6 @@ const MovieInfo = ({movieId}) => {
             const data = await response.json();
             setMovieData(data);
             setIsOpen(true)
-            console.log(data)
         }
         fetchData()
     },[movieId])
@@ -32,7 +31,6 @@ const MovieInfo = ({movieId}) => {
         const created = create('watched', {id: movieId})
         if(created) {
             setWatched(true)
-            console.log(watched)
         }
     }
     const unWatchedMovie = (movieId) => {
