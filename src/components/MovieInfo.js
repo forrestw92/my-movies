@@ -2,16 +2,16 @@ import React, {useEffect, useState} from 'react'
 import {ReactComponent as CloseIcon} from "../images/x.svg";
 import {create, deleteOne, findOne} from "../db";
 const MovieInfo = ({movieId}) => {
-    const hasWatched = findOne('watched', movieId)
-    const isSaved = findOne('saved', movieId)
     const [isOpen, setIsOpen] = useState(movieId !== 0);
     const [movie, setMovieData] = useState(null);
 
-    const [watched, setWatched] = useState(hasWatched);
-    const [saved, setSaved] = useState(isSaved ? isSaved : false);
+    const [watched, setWatched] = useState(false);
+    const [saved, setSaved] = useState(false);
     const toggle = () => setIsOpen(false);
     useEffect( () => {
         setIsOpen(false)
+        setSaved(findOne('saved', movieId))
+        setWatched(findOne('watched', movieId))
         const fetchData = async () => {
             const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=19ca613dce306abd8309ecbdbd90cbe3&language=en-US`);
             const data = await response.json();

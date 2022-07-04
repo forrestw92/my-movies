@@ -1,39 +1,19 @@
 import './App.css';
-import {useState} from "react";
 import Header from "./components/Header";
-import MoviePoster from "./components/MoviePoster";
-import MovieInfo from "./components/MovieInfo";
-import Search from "./components/Search";
-import Trending from "./components/Trending";
+import { Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Watched from "./pages/Watched";
+import Saved from "./pages/Saved";
 
 function App() {
-    const [movies, setMovies] = useState([]);
-    const [selectedMovie, setSelectedMovie] = useState(null);
-    const [searchMovie, setSearchMovie] = useState('');
-    const setSearch = async (e) => {
-        e.preventDefault();
-        const movieName = e.target.value;
-        setSearchMovie(movieName);
-        if(!movieName) setMovies([]);
-        const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=19ca613dce306abd8309ecbdbd90cbe3&language=en-US&query=${movieName}&page=1&include_adult=false`);
-        const data = await response.json();
-        setMovies(data.results);
-    }
-    const selectMovie = (movieId) => {
-        if(movieId) setSelectedMovie(movieId);
-    }
-
   return (
     <div>
         <Header/>
-        <Search setSearch={setSearch}/>
-        <div className="w-full h-full p-10 flex flex-row flex-wrap justify-center">
-            {movies && movies.map(movie => {
-                return (<MoviePoster key={movie.id} movie={movie} selectMovie={selectMovie}/>
-            )})}
-            {searchMovie === '' && <Trending selectMovie={selectMovie}/>}
-        </div>
-        {selectedMovie ? <MovieInfo movieId={selectedMovie}/> : ''}
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/watched" element={<Watched />} />
+            <Route path="/saved" element={<Saved />} />
+        </Routes>
     </div>
    
   );

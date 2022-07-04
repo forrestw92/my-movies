@@ -29,3 +29,9 @@ export const create = (collection, data) => {
     return false
 }
 
+export const getAllWatched = () => {
+    return storeDB.local.get('watched')
+}
+export const getAllSaved = () => {
+    return storeDB.local.get('saved')
+}
