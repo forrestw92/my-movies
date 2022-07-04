@@ -42,10 +42,8 @@ const Home = () => {
           })}
         {searchMovie === "" && <Trending selectMovie={selectMovie} />}
       </div>
-      {selectedMovie ? (
+      {selectedMovie && (
         <MovieInfo movieId={selectedMovie} handleClose={handleClose} />
-      ) : (
-        ""
       )}
     </>
   );
