@@ -22,6 +22,9 @@ const Home = () => {
   const selectMovie = (movieId) => {
     if (movieId) setSelectedMovie(movieId);
   };
+  const handleClose = () => {
+    setSelectedMovie(null);
+  };
 
   return (
     <>
@@ -39,7 +42,11 @@ const Home = () => {
           })}
         {searchMovie === "" && <Trending selectMovie={selectMovie} />}
       </div>
-      {selectedMovie ? <MovieInfo movieId={selectedMovie} /> : ""}
+      {selectedMovie ? (
+        <MovieInfo movieId={selectedMovie} handleClose={handleClose} />
+      ) : (
+        ""
+      )}
     </>
   );
 };

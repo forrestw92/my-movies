@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { ReactComponent as CloseIcon } from "../images/x.svg";
 import { create, deleteOne, findOne } from "../db";
-const MovieInfo = ({ movieId }) => {
+const MovieInfo = ({ movieId, handleClose }) => {
   const [isOpen, setIsOpen] = useState(movieId !== 0);
   const [movie, setMovieData] = useState(null);
 
   const [watched, setWatched] = useState(false);
   const [saved, setSaved] = useState(false);
-  const toggle = () => setIsOpen(false);
+  const toggle = () => {
+    setIsOpen(false);
+    handleClose();
+  };
   useEffect(() => {
     setIsOpen(false);
     setSaved(findOne("saved", movieId));
